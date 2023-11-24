@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import MainNav from '@/components/main-nav';
+import { scrollbar } from '@/components/customClassName';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,9 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={'font-main bg-background text-onPrimary flex'}>
+      <body className={`font-main bg-background text-onPrimary flex ${scrollbar}`}>
         <MainNav />
-        <main className='m-auto'>
+        <main className={`m-auto overflow-auto ${scrollbar}`}>
           {children}
         </main>
       </body>
