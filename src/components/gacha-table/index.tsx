@@ -7,7 +7,7 @@ interface GachaProps extends GachaShop {
   [key: string]: any;
 };
 
-interface GachaTableProps {
+interface Props {
   data: GachaProps[];
 };
 
@@ -22,7 +22,7 @@ const gachaTypeTranslation = (type: number) => {
   default:
     return '???';
   }
-}; 
+};
 
 const customItem = (type: string, value: string) => {
   switch (type) {
@@ -55,22 +55,23 @@ const removeCapcomPrefix = (str: string) => {
   return str;
 };
 
-export default function GachaTable({ data }: GachaTableProps) {
+export default function GachaTable({ data }: Props) {
+  console.log('Logando GachaTable: ', data);
   const columns = Object.keys(data[0]);
 
   return (
     <div className={`rounded-lg border border-onPrimary overflow-auto ${scrollbar}`}>
-      <table className='min-w-full divide-y-2 divide-onPrimary text-sm'>
+      <table className='min-w-full divide-y-2 divide-onPrimary text-sm text-center bg-surface'>
         <thead>
           <tr>
             {columns.map((column) => (
-              <th className='whitespace-nowrap px-4 py-2 font-bold' key={column}>{column}</th>
+              <th className='whitespace-nowrap px-2 py-2 font-bold' key={column}>{column}</th>
             ))}
           </tr>
         </thead>
-        <tbody className='divide-y divide-onPrimary'>
+        <tbody>
           {data.map((gacha) => (
-            <tr className='hover:brightness-150' key={gacha.id}>
+            <tr className='bg-surface hover:brightness-125 hover:text-white cursor-default' key={gacha.id}>
               {columns.map((item) => (
                 <td className='px-4 py-2 font-medium whitespace-nowrap ' key={gacha.id + item}>
                   {customItem(item, gacha[item])}
