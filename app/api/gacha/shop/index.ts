@@ -14,22 +14,20 @@ export interface GachaShop {
   hidden: boolean,
 };
 
-export const getGachaShopData = async (gachaType: number, limit: number, offset: number): Promise<GachaShop[]> => {
+export const getGachaShopData = async (limit: number, offset: number): Promise<GachaShop[]> => {
   const query = `
     SELECT
       *
     FROM
       gacha_shop
-    WHERE
-      gacha_type = $1
     ORDER BY
       id
     ASC LIMIT
-      $2
+      $1
     OFFSET
-      $3;
+      $2;
   `;
 
-  const { rows } = await pool.query(query, [gachaType, limit, offset]);
+  const { rows } = await pool.query(query, [limit, offset]);
   return rows;
 };
