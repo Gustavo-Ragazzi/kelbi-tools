@@ -302,10 +302,7 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
       isHeaderSticky
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
-      classNames={{
-        wrapper: 'max-h-[1080px]',
-        table: 'sticky'
-      }}
+      classNames={{wrapper: 'max-h-[1080px] ',}}
       selectedKeys={selectedKeys}
       selectionMode="multiple"
       sortDescriptor={sortDescriptor}
