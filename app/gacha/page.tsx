@@ -1,4 +1,5 @@
 import { getGachaShopData } from '../api/gacha/shop';
+import ConfirmationGachaModal from './components/confirmation-modal';
 import GachaTable from './components/gacha-table';
 
 const columns = [
@@ -26,8 +27,15 @@ const initialVisibleColumns = (columns: ColumnsGacha) => {
 
 export default async function Gacha() {
   const data = await getGachaShopData(999, 0);
-
+  
   return (
-    <GachaTable data={data} columns={columns} initialVisibleColumns={initialVisibleColumns(columns)}/>
+    <>
+      <GachaTable
+        data={data}
+        columns={columns}
+        initialVisibleColumns={initialVisibleColumns(columns)}
+      />
+      <ConfirmationGachaModal />
+    </>
   );
 };

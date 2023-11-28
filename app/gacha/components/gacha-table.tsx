@@ -5,7 +5,7 @@ import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/dropdown';
 import { Pagination } from '@nextui-org/pagination';
-import { BsThreeDotsVertical, BsSearch, BsChevronDown, BsPlus,BsCheckCircle, BsXCircle } from 'react-icons/bs';
+import { BsThreeDotsVertical, BsSearch, BsChevronDown, BsCheckCircle, BsXCircle, BsEyeSlashFill, BsTrashFill, BsPlusLg, BsExclamationLg } from 'react-icons/bs';
 import { useState, useMemo, useCallback } from 'react';
 import { GachaShop } from '@/app/api/gacha/shop';
 import { ColumnsGacha } from '../page';
@@ -136,9 +136,9 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
               </Button>
             </DropdownTrigger>
             <DropdownMenu>
-              <DropdownItem>View</DropdownItem>
+              <DropdownItem>Open</DropdownItem>
               <DropdownItem>Edit</DropdownItem>
-              <DropdownItem><span className='text-danger-400'>Delete</span></DropdownItem>
+              <DropdownItem className='text-danger-400'>Delete</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </div>
@@ -235,9 +235,30 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<BsPlus />}>
-              Add New
-            </Button>
+            <Dropdown>
+              <DropdownTrigger className="hidden sm:flex">
+                <Button className='bg-primary' endContent={<BsChevronDown className="text-small" />} variant="flat">
+                  Actions
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                disallowEmptySelection
+                aria-label="Table Columns"
+              >
+                <DropdownItem startContent={<BsPlusLg className=''/>}>
+                  New Gacha
+                </DropdownItem>
+                <DropdownItem startContent={<BsExclamationLg className=''/>}>
+                  Recommend Selected
+                </DropdownItem>
+                <DropdownItem startContent={<BsEyeSlashFill className=''/>}>
+                  Hide Selected
+                </DropdownItem>
+                <DropdownItem className='text-danger' startContent={<BsTrashFill/>}>
+                  Delete Selected
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
         <div className="flex justify-between items-center">

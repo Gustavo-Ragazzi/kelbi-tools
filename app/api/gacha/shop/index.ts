@@ -14,6 +14,7 @@ export interface GachaShop {
   hidden: boolean,
 };
 
+
 export const getGachaShopData = async (limit: number, offset: number): Promise<GachaShop[]> => {
   const query = `
     SELECT
