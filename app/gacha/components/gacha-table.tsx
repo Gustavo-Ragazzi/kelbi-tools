@@ -18,8 +18,8 @@ interface Props {
 
 const statusOptions = [
   {name: 'normal', uid: '0'},
-  {name: 'luck', uid: '1'},
-  {name: 'step', uid: '2'},
+  {name: 'step up', uid: '1'},
+  {name: 'lucky box', uid: '4'},
 ];
 
 export default function GachaTable({ data, columns, initialVisibleColumns }: Props) {
