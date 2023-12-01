@@ -6,10 +6,10 @@ import { Button } from '@nextui-org/button';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/dropdown';
 import { Pagination } from '@nextui-org/pagination';
 import { BsThreeDotsVertical, BsSearch, BsChevronDown, BsCheckCircle, BsXCircle, BsEyeSlashFill, BsTrashFill, BsPlusLg, BsExclamationLg } from 'react-icons/bs';
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { GachaShop } from '@/app/api/gacha/shop';
 import { ColumnsGacha } from '../page';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/modal';
+import { Modal, ModalContent, useDisclosure } from '@nextui-org/modal';
 import ConfirmationGachaModal from './confirmation-modal';
 
 interface Props {
@@ -27,6 +27,7 @@ const statusOptions = [
 export default function GachaTable({ data, columns, initialVisibleColumns }: Props) {
   const [filterValue, setFilterValue] = useState('');
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
+  const [someChecked, setSomeChecked] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<Selection>(new Set(initialVisibleColumns));
   const [statusFilter, setStatusFilter] = useState<Selection>('all');
   const [rowsPerPage, setRowsPerPage] = useState(6);
@@ -34,8 +35,12 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
   const [page, setPage] = useState(1);
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
+  useEffect(() => {
+    setSomeChecked(!(selectedKeys === 'all' || selectedKeys.size > 0));
+  }, [selectedKeys]);
+
   const getSelectedFilterList = (selectedItems: any) => {
-    if (selectedKeys === 'all') return data;
+    if (selectedItems === 'all') return data;
 
     const selectedNumbers = [...selectedItems].map(Number);
     const gachaFilteredList = data.filter(item => selectedNumbers.includes(item.id));
@@ -160,7 +165,7 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
     default:
       return cellValue;
     }
-  }, []);
+  }, [onOpen]);
 
   const onNextPage = useCallback(() => {
     if (page < pages) {
@@ -265,13 +270,13 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
                 <DropdownItem isDisabled>
                   <hr />
                 </DropdownItem>
-                <DropdownItem onClick={onOpen} startContent={<BsExclamationLg/>}>
+                <DropdownItem isDisabled={someChecked} onClick={onOpen} startContent={<BsExclamationLg/>}>
                   Recommend Selected
                 </DropdownItem>
-                <DropdownItem onClick={onOpen} startContent={<BsEyeSlashFill/>}>
+                <DropdownItem isDisabled={someChecked} onClick={onOpen} startContent={<BsEyeSlashFill/>}>
                   Hide Selected
                 </DropdownItem>
-                <DropdownItem onClick={onOpen} className='text-danger' startContent={<BsTrashFill/>}>
+                <DropdownItem isDisabled={someChecked} onClick={onOpen} className='text-danger' startContent={<BsTrashFill/>}>
                   Delete Selected
                 </DropdownItem>
               </DropdownMenu>
@@ -303,6 +308,8 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
     data.length,
     columns,
     onClear,
+    onOpen,
+    someChecked,
   ]);
 
   const bottomContent = useMemo(() => {
@@ -341,7 +348,6 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
           {(onClose) => (
             <>
               <ConfirmationGachaModal type={0} list={getSelectedFilterList(selectedKeys)}/>
-
             </>
           )}
         </ModalContent>
