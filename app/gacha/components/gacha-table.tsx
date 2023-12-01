@@ -354,7 +354,7 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
         <ModalContent>
           {(onClose) => (
             <>
-              {selectedActionType && <ConfirmationGachaModal type={selectedActionType} list={getSelectedFilterList(selectedKeys)}/>}
+              {selectedActionType && <ConfirmationGachaModal type={selectedActionType} list={getSelectedFilterList(selectedKeys)} onClose={onClose}/>}
             </>
           )}
         </ModalContent>

@@ -1,13 +1,21 @@
-import { GachaShop } from '@/app/api/gacha/shop';
+'use client';
+
+import { GachaShop, deleteGachaItems, markGachaItemsAsHide, markGachaItemsAsRecommended } from '@/app/api/gacha/shop';
 import { ModalHeader, ModalBody, ModalFooter} from '@nextui-org/modal';
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button} from '@nextui-org/react';
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button, Switch} from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 interface Props {
   type: number,
   list: GachaShop[] | null,
+  onClose: any;
 };
 
-export default function ConfirmationGachaModal({ type, list }: Props) {
+export default function ConfirmationGachaModal({ type, list, onClose }: Props) {
+  const [switchIsSelected, setSwitchIsSelected] = useState(true);
+  const route = useRouter();
+
   const formType = () => {
     const typeList = [
       {
@@ -54,6 +62,33 @@ export default function ConfirmationGachaModal({ type, list }: Props) {
 
   const selectedType = formType();
 
+  const handleSubmit = (actionType: number) => {
+    if (!list) {
+      alert('No item selected');
+      onClose();
+      return;
+    }
+
+    switch (actionType) {
+    case 1:
+      markGachaItemsAsRecommended(list, switchIsSelected);
+      break;
+    case 2:
+      markGachaItemsAsHide(list, switchIsSelected);
+      break;
+    case 3:
+      deleteGachaItems(list);
+      break;
+    default:
+      console.error('Invalid action type');
+    }
+
+    route.refresh();
+    onClose();
+  };
+
+  const showSwitchTypeIds = [1, 2];
+
   return (
     <>
       <ModalHeader className="flex flex-col gap-1">{selectedType.name}</ModalHeader>
@@ -75,7 +110,20 @@ export default function ConfirmationGachaModal({ type, list }: Props) {
         </Table>}
       </ModalBody>
       <ModalFooter>
-        <Button color={selectedType.id === 3 ? 'danger' : 'primary'} onPress={() => console.log('k')}>{selectedType.name}</Button>
+        {showSwitchTypeIds.includes(selectedType.id) &&
+          <Switch
+            className='mr-auto'
+            isSelected={switchIsSelected}
+            size='sm'
+            onValueChange={setSwitchIsSelected}
+          >
+            Active: {switchIsSelected ? 'true' : 'false'}
+          </Switch>
+        }
+        <Button color="danger" variant="light" onPress={onClose}>Close</Button>
+        <Button color={selectedType.id === 3 ? 'danger' : 'primary'} onPress={() => handleSubmit(selectedType.id)}>
+          {selectedType.name}
+        </Button>
       </ModalFooter>
     </>
   );
