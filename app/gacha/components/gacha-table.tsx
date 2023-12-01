@@ -9,6 +9,8 @@ import { BsThreeDotsVertical, BsSearch, BsChevronDown, BsCheckCircle, BsXCircle,
 import { useState, useMemo, useCallback } from 'react';
 import { GachaShop } from '@/app/api/gacha/shop';
 import { ColumnsGacha } from '../page';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/modal';
+import ConfirmationGachaModal from './confirmation-modal';
 
 interface Props {
   data: GachaShop[],
@@ -30,6 +32,18 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
   const [rowsPerPage, setRowsPerPage] = useState(6);
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({ column: 'age', direction: 'ascending' });
   const [page, setPage] = useState(1);
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
+  const getSelectedFilterList = (selectedItems: any) => {
+    if (selectedKeys === 'all') return data;
+
+    const selectedNumbers = [...selectedItems].map(Number);
+    const gachaFilteredList = data.filter(item => selectedNumbers.includes(item.id));
+
+    if (gachaFilteredList.length === 0) return null;
+
+    return gachaFilteredList;
+  };
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -106,8 +120,8 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
     case 'gacha_type':
       let text = String(data.gacha_type);
       if (data.gacha_type == 0) text = 'normal';
-      if (data.gacha_type == 1) text = 'luck box';
-      if (data.gacha_type == 2) text = 'step up';
+      if (data.gacha_type == 1) text = 'step up';
+      if (data.gacha_type == 4) text = 'luck box';
 
       return (
         <span>{text}</span>
@@ -136,9 +150,9 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
               </Button>
             </DropdownTrigger>
             <DropdownMenu>
-              <DropdownItem>Open</DropdownItem>
-              <DropdownItem>Edit</DropdownItem>
-              <DropdownItem className='text-danger-400'>Delete</DropdownItem>
+              <DropdownItem onClick={() => alert('Em construção')}>Open</DropdownItem>
+              <DropdownItem onClick={() => alert('Em construção')}>Edit</DropdownItem>
+              <DropdownItem onClick={onOpen} className='text-danger-400'>Delete</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </div>
@@ -245,16 +259,19 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
                 disallowEmptySelection
                 aria-label="Table Columns"
               >
-                <DropdownItem startContent={<BsPlusLg className=''/>}>
+                <DropdownItem onClick={() => alert('Em construção')} startContent={<BsPlusLg/>}>
                   New Gacha
                 </DropdownItem>
-                <DropdownItem startContent={<BsExclamationLg className=''/>}>
+                <DropdownItem isDisabled>
+                  <hr />
+                </DropdownItem>
+                <DropdownItem onClick={onOpen} startContent={<BsExclamationLg/>}>
                   Recommend Selected
                 </DropdownItem>
-                <DropdownItem startContent={<BsEyeSlashFill className=''/>}>
+                <DropdownItem onClick={onOpen} startContent={<BsEyeSlashFill/>}>
                   Hide Selected
                 </DropdownItem>
-                <DropdownItem className='text-danger' startContent={<BsTrashFill/>}>
+                <DropdownItem onClick={onOpen} className='text-danger' startContent={<BsTrashFill/>}>
                   Delete Selected
                 </DropdownItem>
               </DropdownMenu>
@@ -318,41 +335,53 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
   }, [selectedKeys, page, pages, filteredItems.length, onNextPage, onPreviousPage]);
 
   return (
-    <Table
-      aria-label="Gacha table"
-      isHeaderSticky
-      bottomContent={bottomContent}
-      bottomContentPlacement="outside"
-      classNames={{wrapper: 'max-h-[1080px] ',}}
-      selectedKeys={selectedKeys}
-      selectionMode="multiple"
-      sortDescriptor={sortDescriptor}
-      topContent={topContent}
-      topContentPlacement="outside"
-      onSelectionChange={setSelectedKeys}
-      onSortChange={setSortDescriptor}
-    >
-      <TableHeader columns={headerColumns}>
-        {(column: any) => (
-          <TableColumn
-            key={column.name}
-            align={undefined}
-            allowsSorting={column.sortable}
-            className={`${column.center ? 'text-center' : 'text-left'}`}
-          >
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody emptyContent={'No data found'} items={sortedItems}>
-        {(item: any) => (
-          <TableRow key={item.id} className={'text-left'}>
-            {(columnKey: any) => <TableCell>
-              {renderCell(item, columnKey)}
-            </TableCell>}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ConfirmationGachaModal type={0} list={getSelectedFilterList(selectedKeys)}/>
+
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+      <Table
+        aria-label="Gacha table"
+        isHeaderSticky
+        bottomContent={bottomContent}
+        bottomContentPlacement="outside"
+        classNames={{wrapper: 'max-h-[1080px] ',}}
+        selectedKeys={selectedKeys}
+        selectionMode="multiple"
+        sortDescriptor={sortDescriptor}
+        topContent={topContent}
+        topContentPlacement="outside"
+        onSelectionChange={setSelectedKeys}
+        onSortChange={setSortDescriptor}
+      >
+        <TableHeader columns={headerColumns}>
+          {(column: any) => (
+            <TableColumn
+              key={column.name}
+              align={undefined}
+              allowsSorting={column.sortable}
+              className={`${column.center ? 'text-center' : 'text-left'}`}
+            >
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody emptyContent={'No data found'} items={sortedItems}>
+          {(item: any) => (
+            <TableRow key={item.id} className={'text-left'}>
+              {(columnKey: any) => <TableCell>
+                {renderCell(item, columnKey)}
+              </TableCell>}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </>
   );
 }
