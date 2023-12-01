@@ -40,11 +40,11 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
     setSomeChecked(!(selectedKeys === 'all' || selectedKeys.size > 0));
   }, [selectedKeys]);
 
-  useEffect(() => {
-    if (selectedActionType !== null) {
-      onOpen();
-    }
-  }, [selectedActionType, onOpen]);
+  // useEffect(() => {
+  //   if (selectedActionType !== null) {
+  //     onOpen();
+  //   }
+  // }, [selectedActionType, onOpen]);
 
   const getSelectedFilterList = (selectedItems: any) => {
     if (selectedItems === 'all') return data;
@@ -277,13 +277,22 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
                 <DropdownItem isDisabled>
                   <hr />
                 </DropdownItem>
-                <DropdownItem isDisabled={someChecked} onClick={() => setSelectedActionType(1)} startContent={<BsExclamationLg/>}>
+                <DropdownItem isDisabled={someChecked} onClick={() => {
+                  setSelectedActionType(1);
+                  onOpen();
+                }} startContent={<BsExclamationLg/>}>
                   Recommend Selected
                 </DropdownItem>
-                <DropdownItem isDisabled={someChecked} onClick={() => setSelectedActionType(2)} startContent={<BsEyeSlashFill/>}>
+                <DropdownItem isDisabled={someChecked} onClick={() => {
+                  setSelectedActionType(2);
+                  onOpen();
+                }} startContent={<BsEyeSlashFill/>}>
                   Hide Selected
                 </DropdownItem>
-                <DropdownItem isDisabled={someChecked} onClick={() => setSelectedActionType(3)} className='text-danger' startContent={<BsTrashFill/>}>
+                <DropdownItem isDisabled={someChecked} onClick={() => {
+                  setSelectedActionType(3);
+                  onOpen();
+                }} className='text-danger' startContent={<BsTrashFill/>}>
                   Delete Selected
                 </DropdownItem>
               </DropdownMenu>
