@@ -15,7 +15,7 @@ export interface GachaShop {
 };
 
 
-export const getGachaShopData = async (limit: number, offset: number): Promise<GachaShop[]> => {
+export const getGachaShopData = async (limit: number, offset: number): Promise<GachaShop[] | null >=> {
   const query = `
     SELECT
       *
@@ -29,6 +29,11 @@ export const getGachaShopData = async (limit: number, offset: number): Promise<G
       $2;
   `;
 
-  const { rows } = await pool.query(query, [limit, offset]);
-  return rows;
+  try {
+    const { rows } = await pool.query(query, [limit, offset]);
+    return rows;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };

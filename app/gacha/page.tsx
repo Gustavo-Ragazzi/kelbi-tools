@@ -26,12 +26,15 @@ const initialVisibleColumns = (columns: ColumnsGacha) => {
 
 export default async function Gacha() {
   const data = await getGachaShopData(999, 0);
-  
+
   return (
-    <GachaTable
-      data={data}
-      columns={columns}
-      initialVisibleColumns={initialVisibleColumns(columns)}
-    />
+    <>
+      {data && <GachaTable
+        data={data}
+        columns={columns}
+        initialVisibleColumns={initialVisibleColumns(columns)}
+      />}
+      {!data && <p>Fail getting data</p>}
+    </>
   );
 };
