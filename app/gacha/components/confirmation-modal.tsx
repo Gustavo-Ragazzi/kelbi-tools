@@ -11,11 +11,6 @@ export default function ConfirmationGachaModal({ type, list }: Props) {
   const formType = () => {
     const typeList = [
       {
-        id: 0,
-        name: 'Delete',
-        title: 'Are you sure you want to deleting these items forever?',
-      },
-      {
         id: 1,
         name: 'Recommended',
         title: 'Do you want to mark the items below as recommended?',
@@ -24,6 +19,11 @@ export default function ConfirmationGachaModal({ type, list }: Props) {
         id: 2,
         name: 'Hide',
         title: 'Do you want to hide the items below?',
+      },
+      {
+        id: 3,
+        name: 'Delete',
+        title: 'Are you sure you want to deleting these items forever?',
       },
       {
         id: 97,
@@ -75,7 +75,7 @@ export default function ConfirmationGachaModal({ type, list }: Props) {
         </Table>}
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onPress={() => console.log('k')}>{selectedType.name}</Button>
+        <Button color={selectedType.id === 3 ? 'danger' : 'primary'} onPress={() => console.log('k')}>{selectedType.name}</Button>
       </ModalFooter>
     </>
   );

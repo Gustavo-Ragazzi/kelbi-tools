@@ -34,10 +34,17 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({ column: 'age', direction: 'ascending' });
   const [page, setPage] = useState(1);
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const [selectedActionType, setSelectedActionType] = useState<number | null>(null);
 
   useEffect(() => {
     setSomeChecked(!(selectedKeys === 'all' || selectedKeys.size > 0));
   }, [selectedKeys]);
+
+  useEffect(() => {
+    if (selectedActionType !== null) {
+      onOpen();
+    }
+  }, [selectedActionType, onOpen]);
 
   const getSelectedFilterList = (selectedItems: any) => {
     if (selectedItems === 'all') return data;
@@ -270,13 +277,13 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
                 <DropdownItem isDisabled>
                   <hr />
                 </DropdownItem>
-                <DropdownItem isDisabled={someChecked} onClick={onOpen} startContent={<BsExclamationLg/>}>
+                <DropdownItem isDisabled={someChecked} onClick={() => setSelectedActionType(1)} startContent={<BsExclamationLg/>}>
                   Recommend Selected
                 </DropdownItem>
-                <DropdownItem isDisabled={someChecked} onClick={onOpen} startContent={<BsEyeSlashFill/>}>
+                <DropdownItem isDisabled={someChecked} onClick={() => setSelectedActionType(2)} startContent={<BsEyeSlashFill/>}>
                   Hide Selected
                 </DropdownItem>
-                <DropdownItem isDisabled={someChecked} onClick={onOpen} className='text-danger' startContent={<BsTrashFill/>}>
+                <DropdownItem isDisabled={someChecked} onClick={() => setSelectedActionType(3)} className='text-danger' startContent={<BsTrashFill/>}>
                   Delete Selected
                 </DropdownItem>
               </DropdownMenu>
@@ -308,7 +315,7 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
     data.length,
     columns,
     onClear,
-    onOpen,
+    // onOpen,
     someChecked,
   ]);
 
@@ -347,7 +354,7 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
         <ModalContent>
           {(onClose) => (
             <>
-              <ConfirmationGachaModal type={0} list={getSelectedFilterList(selectedKeys)}/>
+              {selectedActionType && <ConfirmationGachaModal type={selectedActionType} list={getSelectedFilterList(selectedKeys)}/>}
             </>
           )}
         </ModalContent>
