@@ -79,18 +79,16 @@ export const markGachaItemsAsHide = (items: GachaShop[], isActive: boolean) => {
 
 export const deleteGachaItems = (items: GachaShop[]) => {
   const query = `
-    UPDATE
+    DELETE FROM
       gacha_shop
-    SET
-      recommended = true
     WHERE
-      id IN (2, 3, 5);
+      id = ANY($1);
   `;
 
   try {
     const idList = items.map(items => items.id);
 
-    pool.query(query);
+    pool.query(query, [idList]);
   } catch (error) {
     console.error(error);
   }
