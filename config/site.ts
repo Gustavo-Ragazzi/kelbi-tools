@@ -10,7 +10,7 @@ export const siteConfig = {
     },
     {
       label: 'Gacha Editor',
-      href: '/gacha',
+      href: '/gacha/table',
     },
     {
       label: 'Users',

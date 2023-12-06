@@ -8,7 +8,7 @@ import { Pagination } from '@nextui-org/pagination';
 import { BsThreeDotsVertical, BsSearch, BsChevronDown, BsCheckCircle, BsXCircle, BsEyeSlashFill, BsTrashFill, BsPlusLg, BsExclamationLg } from 'react-icons/bs';
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { GachaShop } from '@/app/api/gacha/shop';
-import { ColumnsGacha } from '../page';
+import { ColumnsGacha } from '../table/page';
 import { Modal, ModalContent, useDisclosure } from '@nextui-org/modal';
 import ConfirmationGachaModal from './confirmation-modal';
 
@@ -39,12 +39,6 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
   useEffect(() => {
     setSomeChecked(!(selectedKeys === 'all' || selectedKeys.size > 0));
   }, [selectedKeys]);
-
-  // useEffect(() => {
-  //   if (selectedActionType !== null) {
-  //     onOpen();
-  //   }
-  // }, [selectedActionType, onOpen]);
 
   const getSelectedFilterList = (selectedItems: any) => {
     if (selectedItems === 'all') return data;
@@ -324,7 +318,7 @@ export default function GachaTable({ data, columns, initialVisibleColumns }: Pro
     data.length,
     columns,
     onClear,
-    // onOpen,
+    onOpen,
     someChecked,
   ]);
 

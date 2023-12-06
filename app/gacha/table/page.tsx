@@ -1,5 +1,5 @@
-import { getGachaShopData } from '../api/gacha/shop';
-import GachaTable from './components/gacha-table';
+import { getGachaShopData } from '../../api/gacha/shop';
+import GachaTable from '../components/gacha-table';
 
 const columns = [
   {name: 'id', center: false, sortable: true, initialVisible: true},
