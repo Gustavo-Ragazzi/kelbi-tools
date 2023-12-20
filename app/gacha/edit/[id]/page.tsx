@@ -9,7 +9,7 @@ export default function EditGacha({ params }: { params: { id: number } }) {
     <>
       <Tabs variant='underlined' aria-label='Edit Options' className='mb-4'>
         <Tab title='Card' className='text-md'>
-          <CardForm />
+          <CardForm id={params.id}/>
         </Tab>
         <Tab title='Items' className='text-md'>
           <ItemsForm />
