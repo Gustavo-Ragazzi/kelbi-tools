@@ -14,7 +14,7 @@ import { siteConfig } from '@/config/site';
 import NextLink from 'next/link';
 import clsx from 'clsx';
 import { ThemeSwitch } from '@/components/theme-switch';
-import Image from 'next/image';
+import { Image } from '@nextui-org/react';
 
 export default function Navbar() {
   return (
@@ -25,7 +25,6 @@ export default function Navbar() {
             <Image
               alt='Arca Logo'
               src='https://cdn.discordapp.com/attachments/1037153820465184869/1039622918545625230/unknown.png?ex=656f7a4b&is=655d054b&hm=1508d9ea6abf60051975581556f4fda179954e856047861ccd4091de9abb1980&'
-              height={32}
               width={32}
             />
             <p className="font-bold text-inherit">ARCA</p>

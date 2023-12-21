@@ -86,6 +86,7 @@ export default function CardForm({ id }: Props) {
           <label htmlFor='id' className={labelStyle}>ID <InfoTooltip>{idTooltip}</InfoTooltip></label>
           <Input
             isRequired
+            aria-label='Id Input'
             id='id'
             type='number'
             variant='bordered'
@@ -98,6 +99,7 @@ export default function CardForm({ id }: Props) {
           <label htmlFor='name' className={labelStyle}>Name <InfoTooltip>{nameTooltip}</InfoTooltip></label>
           <Input
             isRequired
+            aria-label='Name Input'
             id='name'
             type='text'
             variant='bordered'
@@ -110,6 +112,7 @@ export default function CardForm({ id }: Props) {
           <label htmlFor='minHr' className={labelStyle}>Min HR <InfoTooltip>{minHrTooltip}</InfoTooltip></label>
           <Input
             isRequired
+            aria-label='MinHR Input'
             id='minHr'
             type='number'
             min={0}
@@ -124,6 +127,7 @@ export default function CardForm({ id }: Props) {
           <label htmlFor='minGr' className={labelStyle}>Min GR <InfoTooltip>{minGrTooltip}</InfoTooltip></label>
           <Input
             isRequired
+            aria-label='MinGR Input'
             id='minGr'
             type='number'
             min={0}
@@ -138,6 +142,7 @@ export default function CardForm({ id }: Props) {
           <label htmlFor='selectSwitch' className={labelStyle}>Gacha Type</label>
           <Select
             isRequired
+            aria-label='Gacha Type Select'
             id='selectSwitch'
             variant='bordered'
             defaultSelectedKeys={[cardData.gacha_type.toString()]}
@@ -157,6 +162,7 @@ export default function CardForm({ id }: Props) {
           <label htmlFor='bannerUrl' className={labelStyle}>Banner URL <InfoTooltip>{bannerURLTooltip}</InfoTooltip></label>
           <Input
             isRequired
+            aria-label='BannerURL Input'
             id='bannerUrl'
             type='text'
             variant='bordered'
@@ -169,6 +175,7 @@ export default function CardForm({ id }: Props) {
           <label htmlFor='featureUrl' className={labelStyle}>Feature URL <InfoTooltip>{featureURLTooltip}</InfoTooltip></label>
           <Input
             isRequired
+            aria-label='FeatureURL Input'
             id='featureUrl'
             type='text'
             variant='bordered'
@@ -181,6 +188,7 @@ export default function CardForm({ id }: Props) {
           <label htmlFor='thumbnailUrl' className={labelStyle}>Thumbnail URL <InfoTooltip>{thumbnailURLTooltip}</InfoTooltip></label>
           <Input
             isRequired
+            aria-label='ThumbnailURL Input'
             id='thumbnailUrl'
             type='text'
             variant='bordered'
@@ -194,6 +202,7 @@ export default function CardForm({ id }: Props) {
       <div className='flex justify-between px-2'>
         <CheckboxGroup label='Toogles' orientation='vertical'>
           <Checkbox
+            aria-label='Wide Checkbox'
             value='wide'
             checked={cardData.wide}
             onChange={(e) => handleInputChange('wide', e.target.checked)}
@@ -201,6 +210,7 @@ export default function CardForm({ id }: Props) {
             <span className='flex gap-4'>Wide <InfoTooltip>{wideTooltip}</InfoTooltip></span>
           </Checkbox>
           <Checkbox
+            aria-label='Recommended Checkbox'
             value='recommended'
             checked={cardData.recommended}
             onChange={(e) => handleInputChange('recommended', e.target.checked)}
@@ -208,6 +218,7 @@ export default function CardForm({ id }: Props) {
             <span className='flex gap-4'>Recommended <InfoTooltip>{recommendedTooltip}</InfoTooltip></span>
           </Checkbox>
           <Checkbox
+            aria-label='Hidden Checkbox'
             value='hidden'
             checked={cardData.hidden}
             onChange={(e) => handleInputChange('hidden', e.target.checked)}
@@ -217,6 +228,7 @@ export default function CardForm({ id }: Props) {
         </CheckboxGroup>
         <div className='flex items-end'>
           <Button
+            aria-label='Submit form'
             color='primary'
             type='submit'
           >Save</Button>
