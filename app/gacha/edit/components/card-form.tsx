@@ -65,80 +65,10 @@ export default function CardForm({ id }: Props) {
     fetchData();
   }, [id]);
 
-  const handleIdChange = (value: number) => {
+  const handleInputChange = (field: string, value: any) => {
     setCardData((prevData) => ({
-      ...prevData!,
-      id: value,
-    }));
-  };
-
-  const handleMinGrChange = (value: number) => {
-    setCardData((prevData) => ({
-      ...prevData!,
-      min_gr: value,
-    }));
-  };
-  
-  const handleMinHrChange = (value: number) => {
-    setCardData((prevData) => ({
-      ...prevData!,
-      min_hr: value,
-    }));
-  };
-  
-  const handleNameChange = (value: string) => {
-    setCardData((prevData) => ({
-      ...prevData!,
-      name: value,
-    }));
-  };
-  
-  const handleBannerUrlChange = (value: string) => {
-    setCardData((prevData) => ({
-      ...prevData!,
-      url_banner: value,
-    }));
-  };
-  
-  const handleFeatureUrlChange = (value: string) => {
-    setCardData((prevData) => ({
-      ...prevData!,
-      url_feature: value,
-    }));
-  };
-  
-  const handleThumbnailUrlChange = (value: string) => {
-    setCardData((prevData) => ({
-      ...prevData!,
-      url_thumbnail: value,
-    }));
-  };
-  
-  const handleWideChange = (value: boolean) => {
-    setCardData((prevData) => ({
-      ...prevData!,
-      wide: value,
-    }));
-  };
-  
-  const handleRecommendedChange = (value: boolean) => {
-    setCardData((prevData) => ({
-      ...prevData!,
-      recommended: value,
-    }));
-  };
-  
-  const handleHiddenChange = (value: boolean) => {
-    setCardData((prevData) => ({
-      ...prevData!,
-      hidden: value,
-    }));
-  };
-  
-  const handleGachaTypeChange = (value: number) => {
-    setCardData((prevData) => ({
-      ...prevData!,
-      gacha_type: value,
+      ...prevData,
+      [field]: value,
     }));
   };
 
@@ -161,7 +91,7 @@ export default function CardForm({ id }: Props) {
             variant='bordered'
             placeholder='50'
             value={cardData.id.toString()}
-            onChange={(e) => handleIdChange(Number(e.target.value))}
+            onChange={(e) => handleInputChange('id', Number(e.target.value))}
           />
         </div>
         <div className='flex-grow'>
@@ -173,7 +103,7 @@ export default function CardForm({ id }: Props) {
             variant='bordered'
             placeholder='Stylish Assault Up PZ'
             value={cardData.name}
-            onChange={(e) => handleNameChange(e.target.value)}
+            onChange={(e) => handleInputChange('name', e.target.value)}
           />
         </div>
         <div className='w-28'>
@@ -187,7 +117,7 @@ export default function CardForm({ id }: Props) {
             variant='bordered'
             placeholder='999'
             value={cardData.min_hr.toString()}
-            onChange={(e) => handleMinHrChange(Number(e.target.value))}
+            onChange={(e) => handleInputChange('min_hr', Number(e.target.value))}
           />
         </div>
         <div className='w-28'>
@@ -201,7 +131,7 @@ export default function CardForm({ id }: Props) {
             variant='bordered'
             placeholder='999'
             value={cardData.min_gr.toString()}
-            onChange={(e) => handleMinGrChange(Number(e.target.value))}
+            onChange={(e) => handleInputChange('min_gr', Number(e.target.value))}
           />
         </div>
         <div className='flex-grow'>
@@ -211,7 +141,7 @@ export default function CardForm({ id }: Props) {
             id='selectSwitch'
             variant='bordered'
             defaultSelectedKeys={[cardData.gacha_type.toString()]}
-            onChange={(e) => handleGachaTypeChange(Number(e.target.value))}
+            onChange={(e) => handleInputChange('gacha_type', Number(e.target.value))}
           >
             {gachaTypeOptions.map((gacha) => (
               <SelectItem key={gacha.value} value={gacha.value}>
@@ -232,7 +162,7 @@ export default function CardForm({ id }: Props) {
             variant='bordered'
             placeholder='https://imageurl'
             value={cardData.url_banner}
-            onChange={(e) => handleBannerUrlChange(e.target.value)}
+            onChange={(e) => handleInputChange('url_banner', e.target.value)}
           />
         </div>
         <div className='flex-grow'>
@@ -244,7 +174,7 @@ export default function CardForm({ id }: Props) {
             variant='bordered'
             placeholder='https://imageurl'
             value={cardData.url_feature}
-            onChange={(e) => handleFeatureUrlChange(e.target.value)}
+            onChange={(e) => handleInputChange('url_feature', e.target.value)}
           />
         </div>
         <div className='flex-grow'>
@@ -256,7 +186,7 @@ export default function CardForm({ id }: Props) {
             variant='bordered'
             placeholder='https://imageurl'
             value={cardData.url_thumbnail}
-            onChange={(e) => handleThumbnailUrlChange(e.target.value)}
+            onChange={(e) => handleInputChange('url_thumbnail', e.target.value)}
           />
         </div>
       </div>
@@ -266,21 +196,21 @@ export default function CardForm({ id }: Props) {
           <Checkbox
             value='wide'
             checked={cardData.wide}
-            onChange={(e) => handleWideChange(e.target.checked)}
+            onChange={(e) => handleInputChange('wide', e.target.checked)}
           >
             <span className='flex gap-4'>Wide <InfoTooltip>{wideTooltip}</InfoTooltip></span>
           </Checkbox>
           <Checkbox
             value='recommended'
             checked={cardData.recommended}
-            onChange={(e) => handleRecommendedChange(e.target.checked)}
+            onChange={(e) => handleInputChange('recommended', e.target.checked)}
           >
             <span className='flex gap-4'>Recommended <InfoTooltip>{recommendedTooltip}</InfoTooltip></span>
           </Checkbox>
           <Checkbox
             value='hidden'
             checked={cardData.hidden}
-            onChange={(e) => handleHiddenChange(e.target.checked)}
+            onChange={(e) => handleInputChange('hidden', e.target.checked)}
           >
             <span className='flex gap-4'>Hidden <InfoTooltip>{hiddenTooltip}</InfoTooltip></span>
           </Checkbox>
