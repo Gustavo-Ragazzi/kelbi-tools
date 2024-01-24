@@ -30,14 +30,17 @@ export default function CardForm({ id }: Props) {
     {
       name: 'Normal',
       value: '0',
+      isDisabled: false,
     },
     {
       name: 'Step Up',
       value: '1',
+      isDisabled: true,
     },
     {
       name: 'Lucky Box',
       value: '4',
+      isDisabled: true,
     },
   ];
 
@@ -149,7 +152,7 @@ export default function CardForm({ id }: Props) {
             onChange={(e) => handleInputChange('gacha_type', Number(e.target.value))}
           >
             {gachaTypeOptions.map((gacha) => (
-              <SelectItem key={gacha.value} value={gacha.value}>
+              <SelectItem key={gacha.value} value={gacha.value} isDisabled={gacha.isDisabled}>
                 {gacha.name}
               </SelectItem>
             ))}
